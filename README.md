@@ -1,5 +1,6 @@
 ## Hoi 👋
-# NL Blog
+### NL Blog 🇳🇱 
+#### Korte Nederlandstalige stukjes, elke week één 🏗️
 <!--
 **anatolischejongen/anatolischejongen** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
 
