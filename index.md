@@ -7,8 +7,8 @@ title: Welkom
 
 Hier deel ik korte stukjes in het **Nederlands (NL)**: dagelijkse notities, observaties en mini-verhalen.
 
-- Alle berichten: **[Blog](/blog/)**  
-- Over mij: **[Over](/about)**
+- Alle berichten: [Blog]({{ site.baseurl }}/blog/)
+- Over mij: [Over]({{ site.baseurl }}/about)
 
 ## Laatste berichten
 
