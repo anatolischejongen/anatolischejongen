@@ -12,3 +12,19 @@ a:hover { text-decoration: underline; }
 
 /* Başlıkların belirginliği */
 h1, h2, h3 { font-weight: 700; }
+
+/* Üstte GitHub'a giden butonları tema bağımsız gizle */
+.page-header .btn,
+header .btn,
+header a[href*="github.com"] { display: none !important; }
+
+/* Alttaki footer kredilerini gizle (tema bağımsız, komple) */
+.site-footer,
+footer.site-footer,
+footer .site-footer-owner,
+footer .site-footer-credits { display: none !important; }
+
+/* Degrade başlık: farklı temalarda da uygulansın */
+.page-header, header[role="banner"] {
+  background-image: linear-gradient(120deg, #0ea5e9, #06b6d4);
+}
