@@ -5,12 +5,12 @@ title: Welkom
 
 # Hoi 👋
 
-Burada **Hollands (NL)** kısa yazılar paylaşıyorum: günlük notlar, gözlemler, mini hikâyeler.
+Hier deel ik korte stukjes in het **Nederlands (NL)**: dagelijkse notities, observaties en mini-verhalen.
 
-- Tüm yazılar: **[Blog](/blog/)**  
-- Hakkımda: **[About](/about)**
+- Alle berichten: **[Blog](/blog/)**  
+- Over mij: **[Over](/about)**
 
-## Son yazılar
+## Laatste berichten
 
 {% assign latest = site.posts | slice: 0, 6 %}
 {% for post in latest %}
