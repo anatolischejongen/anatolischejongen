@@ -1,0 +1,14 @@
+title: "M. Said Canbolat"
+description: "Kişisel blog (NL)"
+url: "https://username.github.io"
+baseurl: ""
+
+remote_theme: pages-themes/cayman@v0.2.0
+
+plugins:
+  - jekyll-feed
+  - jekyll-seo-tag
+
+navbar-links:
+  Blog: /blog/
+  About: /about
