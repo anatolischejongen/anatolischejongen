@@ -1,0 +1,7 @@
+<header class="page-header" role="banner">
+  <h1 class="project-name">{{ page.title | default: site.title | escape }}</h1>
+  {% if page.description or site.description %}
+  <h2 class="project-tagline">{{ page.description | default: site.description | escape }}</h2>
+  {% endif %}
+  <!-- "View on GitHub" butonlarını kaldırdık -->
+</header>
