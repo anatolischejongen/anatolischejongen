@@ -1,7 +1,10 @@
 title: "Said — NL Blog"
 description: "Korte Nederlandstalige stukjes – elke week één."
-url: "https://anatolischejongen.github.io"  # Pas dit aan als je een andere URL gebruikt
-baseurl: "anatolischejongen"  # Als dit een project site is, zet hier: "/<repo-naam>"
+url: "https://anatolischejongen.github.io"
+baseurl: "/anatolischejongen"
+
+# Tema kapalı (mavi barı kaldır)
+theme:
 
 plugins:
   - jekyll-feed
