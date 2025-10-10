@@ -1,4 +1,4 @@
-/* ===== DESIGN TOKENS ===== */
+/* ===== TOKENS ===== */
 :root{
   color-scheme: light dark;
 
@@ -7,34 +7,37 @@
   --radius: 16px;
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
-  /* Light palette (content) */
+  /* Header yüksekliği – SABİT (taşma asla olmaz) */
+  --header-h: 72px;
+
+  /* Light palette */
   --l-bg:#ffffff;  --l-text:#0f172a; --l-muted:#475569; --l-card:#ffffff; --l-border:#e2e8f0;
   --l-accent:#04477e; --l-link: var(--l-accent);
 
-  /* Dark palette (content) */
+  /* Dark palette */
   --d-bg:#0b1020; --d-text:#e6edf3; --d-muted:#9aa4b2; --d-card:#121a2b; --d-border:#2b3240;
   --d-accent:#9cc7ff; --d-link: var(--d-accent);
 
-  /* Header rengi (şeffaf + blur; solid olduğunda #04477e) */
+  /* Header rengi (solid olduğunda) */
   --l-header-1:#04477e; --l-header-2:#04477e;
   --d-header-1:#04477e; --d-header-2:#04477e;
 
-  /* Arka plan overlay (görsel üstü okunurluk) */
+  /* Arka plan overlay (okunurluk) */
   --page-bg-overlay-light: rgba(0,0,0,.20);
   --page-bg-overlay-dark:  rgba(0,0,0,.45);
 
-  /* Aktif tema değişkenleri (JS/medya kuralı günceller) */
+  /* Aktif tema değerleri (medya/JS günceller) */
   --bg: var(--l-bg); --text: var(--l-text); --muted: var(--l-muted); --card: var(--l-card);
   --border: var(--l-border); --accent: var(--l-accent); --link: var(--l-link);
 
-  /* default.html içinde atanıyor; burada sadece bağlanıyoruz */
+  /* default.html dolduruyor */
   --page-bg-image-light: none;
   --page-bg-image-dark:  none;
   --page-bg-image: var(--page-bg-image-light);
   --page-bg-overlay: var(--page-bg-overlay-light);
 
-  /* İçeriğin header altından başlaması için ofset (JS ölçer) */
-  --content-offset: 96px;
+  /* Sticky footer */
+  --footer-h: 56px;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme]){
@@ -61,7 +64,7 @@
 *{box-sizing:border-box}
 html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.65 var(--font-sans) }
 
-/* Tam ekran arka plan (cover, sabit) */
+/* Tam ekran arka plan */
 body::before{
   content:""; position:fixed; inset:0; z-index:-1;
   background-image:
@@ -72,22 +75,24 @@ body::before{
   background-repeat: no-repeat;
 }
 
-body{ padding-bottom: var(--footer-h, 56px); }
+/* İçerik alanı = header yüksekliği + 24px güvenlik */
+main{ padding-top: calc(var(--header-h) + 24px); }
+body{ padding-bottom: var(--footer-h); }
 
 img{max-width:100%;height:auto;border-radius:12px}
 .container{max-width:var(--container-max);margin:0 auto;padding:24px}
 
-/* ===== TRANSPARENT HEADER ===== */
+/* ===== HEADER (şeffaf) ===== */
 .site-header{
-  position:fixed; inset:0 0 auto 0; z-index:10;
+  position:fixed; left:0; right:0; top:0; height:var(--header-h); z-index:10;
   background:transparent; color:#fff; border-bottom:1px solid transparent;
 }
-.header-row{display:flex;align-items:center;justify-content:space-between}
+.header-row{display:flex;align-items:center;justify-content:space-between; height:100%;}
 .brand{color:#fff;text-decoration:none;font-weight:800;font-size:20px;letter-spacing:.2px; text-shadow:0 1px 2px rgba(0,0,0,.35)}
 .nav a{color:#fff;text-decoration:none;margin-left:18px;opacity:.95; text-shadow:0 1px 2px rgba(0,0,0,.35)}
 .nav a:hover{opacity:1;text-decoration:underline}
 
-/* Scroll sonrası okunaklılık (hafif renk + blur) */
+/* Scroll sonrası okunaklılık */
 .site-header.solid{
   background: color-mix(in srgb, #04477e 70%, transparent);
   backdrop-filter: saturate(180%) blur(8px);
@@ -102,7 +107,6 @@ img{max-width:100%;height:auto;border-radius:12px}
 .theme-toggle:hover{ background:rgba(255,255,255,.08) }
 
 /* ===== CONTENT ===== */
-main{ padding-top: var(--content-offset); }
 main h1{font-size:32px;margin:24px 0 12px}
 main h2{font-size:24px;margin:20px 0 10px}
 main p{margin:10px 0}
@@ -117,7 +121,7 @@ pre{ background:var(--card); border:1px solid var(--border); padding:14px; borde
 
 /* ===== Sticky footer ===== */
 .site-footer{
-  position:fixed; left:0; right:0; bottom:0; height:56px;
+  position:fixed; left:0; right:0; bottom:0; height:var(--footer-h);
   display:flex; align-items:center; border-top:1px solid var(--border);
   background: color-mix(in srgb, var(--bg) 92%, transparent); color: var(--muted);
 }
