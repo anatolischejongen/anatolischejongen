@@ -10,14 +10,15 @@
   /* LIGHT palet (açık tema) – indigo ağırlıklı */
   --l-bg:#ffffff;  --l-text:#0f172a; --l-muted:#475569; --l-card:#ffffff; --l-border:#e2e8f0;
   --l-accent:#6366f1;  --l-link: var(--l-accent);
-  --l-header-1:#042d5f;  /* +15% daha açık */
-  --l-header-2:#042d5f;  /* gönderdiğin ton */
+  --l-header-1:#04477e;
+  --l-header-2:#04477e;
+
 
   /* DARK palet (koyu tema) */
   --d-bg:#0b1020; --d-text:#e6edf3; --d-muted:#9aa4b2; --d-card:#121a2b; --d-border:#2b3240;
   --d-accent:#a78bfa;  --d-link: var(--d-accent);
-  --d-header-1:#042d5f;  /* dark’ta biraz koyula */
-  --d-header-2:#042d5f;
+  --d-header-1:#04477e;
+  --d-header-2:#04477e;
 
   /* Aktif (varsayılan LIGHT; JS/CSS bunu değiştirir) */
   --bg: var(--l-bg); --text: var(--l-text); --muted: var(--l-muted); --card: var(--l-card);
