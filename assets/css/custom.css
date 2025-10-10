@@ -1,5 +1,7 @@
+/* ========== TOKENS ========== */
 :root{
   color-scheme: light dark;
+
   --container-max: 880px;
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
@@ -7,25 +9,47 @@
   --link:#9cc7ff;
 
   --header-h: 72px;
-  --page-bg-image: none;
-  --page-bg-overlay: rgba(0,0,0,.22);
-
   --footer-h: 56px;
+
+  /* Arkaplan değişkenleri (default.html bu ikisini ayarlıyor) */
+  --page-bg-image: none;
+  --page-bg-overlay: rgba(0,0,0,.14);
+
+  /* Martı kadrajı: sağ üst odak */
+  --bg-pos-desktop: right 4% top;
+  --bg-pos-mobile:  right -40px top;
 }
 
-/* Genel */
-*{box-sizing:border-box}
-html,body{ margin:0; padding:0; background:#0b1020; color:var(--text); font:16px/1.65 var(--font-sans) }
+/* Karanlık modda overlay koyulaşsın */
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme]){ --page-bg-overlay: rgba(0,0,0,.45); }
+}
+:root[data-theme="dark"] { --page-bg-overlay: rgba(0,0,0,.45); }
+:root[data-theme="light"]{ --page-bg-overlay: rgba(0,0,0,.14); }
 
-/* Tüm sayfalarda fullscreen arkaplan */
+/* ========== BASE ========== */
+*{box-sizing:border-box}
+html,body{
+  margin:0; padding:0;
+  background:#0b1020;            /* görsel gelmezse güvenli zemin */
+  color:var(--text);
+  font:16px/1.65 var(--font-sans);
+}
+
+/* Tüm sayfalarda tam ekran arkaplan (overlay + görsel) */
 body::before{
   content:""; position:fixed; inset:0; z-index:-1;
   background-image:
     linear-gradient(0deg, var(--page-bg-overlay), var(--page-bg-overlay)),
     var(--page-bg-image);
   background-size: cover, cover;
-  background-position: center, center;
-  background-repeat: no-repeat;
+  background-repeat: no-repeat, no-repeat;
+  background-position: center, var(--bg-pos-desktop);
+  background-attachment: fixed, fixed; /* parallax hissi; kayma/bozulma yok */
+}
+/* Mobilde martıyı biraz içeri al */
+@media (max-width: 680px){
+  body::before{ background-position: center, var(--bg-pos-mobile); }
 }
 
 .container{ max-width:var(--container-max); margin:0 auto; padding:24px }
@@ -34,10 +58,11 @@ main{ padding-top: calc(var(--header-h) + 24px); }
 a{ color:var(--link); text-underline-offset:2px; text-decoration-thickness:1.5px }
 a:hover{ text-decoration:underline }
 
-/* Header – başta tamamen şeffaf */
+/* ========== HEADER ========== */
+/* Başlangıçta TAM şeffaf */
 .site-header{
   position:fixed; left:0; right:0; top:0; height:var(--header-h); z-index:10;
-  background: transparent;
+  background: transparent !important;
   border-bottom: 1px solid transparent;
   transition: background .25s ease, border-color .25s ease, backdrop-filter .25s ease;
   color:#fff;
@@ -47,26 +72,22 @@ a:hover{ text-decoration:underline }
 .nav a{ color:#fff; text-decoration:none; margin-left:18px; opacity:.95; text-shadow:0 1px 2px rgba(0,0,0,.35) }
 .nav a:hover{ opacity:1; text-decoration:underline }
 
-/* Scroll edince çok hafif cam efekti */
+/* Scroll edince HAFİF cam efekti */
 .site-header.solid{
-  background: rgba(4,71,126,.18);
-  -webkit-backdrop-filter: blur(10px) saturate(160%);
-  backdrop-filter: blur(10px) saturate(160%);
+  background: rgba(4,71,126,.12) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(160%);
+  backdrop-filter: blur(8px) saturate(160%);
   border-bottom-color: rgba(255,255,255,.10);
 }
 
-/* Tema butonu */
-.theme-toggle{
-  margin-left:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
-  background:transparent; border:1px solid rgba(255,255,255,.45); color:#fff;
-}
-.theme-toggle:hover{ background:rgba(255,255,255,.08) }
-
-/* Footer (sabit) */
+/* ========== FOOTER ========== */
 .site-footer{
   position:fixed; left:0; right:0; bottom:0; height:var(--footer-h);
-  display:flex; align-items:center; border-top:1px solid rgba(255,255,255,.12);
-  background: rgba(0,0,0,.16); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
-  color: var(--muted);
+  display:flex; align-items:center;
+  border-top:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.16);
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  color:var(--muted);
 }
 .site-footer .container{ padding-top:0; padding-bottom:0 }
