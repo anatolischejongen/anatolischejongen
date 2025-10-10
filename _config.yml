@@ -3,10 +3,9 @@ description: "Mijn persoolijke blog"
 url: "https://anatolischejongen.github.io"
 baseurl: "/anatolischejongen"
 
-remote_theme: pages-themes/Architect
+
 
 plugins:
-  - jekyll-remote-theme   # ← BUNU EKLE
   - jekyll-feed
   - jekyll-seo-tag
 
