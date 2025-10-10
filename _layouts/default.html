@@ -7,13 +7,27 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   {% seo %}
+
+  <!-- Arka plan görselleri: LIGHT ve DARK için ayrı dosyalar -->
+  <style>
+    :root{
+      /* Masaüstü varsayılanları */
+      --page-bg-image-light: url("{{ '/assets/img/bg2-desktop-2880x1620.webp' | relative_url }}");
+      --page-bg-image-dark:  url("{{ '/assets/img/bg2-night-desktop-2880x1620.webp' | relative_url }}");
+    }
+    /* Mobil kırılımında mobil görselleri kullan */
+    @media (max-width: 680px){
+      :root{
+        --page-bg-image-light: url("{{ '/assets/img/bg2-mobile-1080x2340.webp' | relative_url }}");
+        --page-bg-image-dark:  url("{{ '/assets/img/bg2-night-mobile-1080x2340.webp' | relative_url }}");
+      }
+    }
+  </style>
 </head>
 <body>
-  <!-- TEK header + TEK nav -->
-  <header class="site-header">
+  <header class="site-header transparent" id="siteHeader">
     <div class="container header-row">
       <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-
       <nav class="nav" aria-label="Hoofdmenu">
         <a href="{{ '/blog/' | relative_url }}">Blog</a>
         <a href="{{ '/about' | relative_url }}">Over</a>
@@ -21,15 +35,6 @@
       </nav>
     </div>
   </header>
-
-  {% if page.hero %}
-  <section class="hero" style="background-image:url('{{ page.hero_image | relative_url }}')">
-    <div class="container">
-      <h1 class="hero-title">{{ page.hero_title }}</h1>
-      <p class="hero-sub">{{ page.hero_subtitle }}</p>
-    </div>
-  </section>
-  {% endif %}
 
   <main class="container">
     {{ content }}
@@ -41,36 +46,26 @@
     </div>
   </footer>
 
-  <!-- Tema toggle: localStorage + auto (OS) uyumlu -->
   <script>
   (function(){
-    const KEY = 'theme'; // 'light' | 'dark' | null(=auto)
-    const root = document.documentElement;
-    const btn  = document.getElementById('themeToggle');
+    const KEY='theme', root=document.documentElement, btn=document.getElementById('themeToggle');
+    const saved=localStorage.getItem(KEY);
+    if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved); else root.removeAttribute('data-theme');
 
-    const saved = localStorage.getItem(KEY);
-    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
-    else root.removeAttribute('data-theme');
+    function current(){ const a=root.getAttribute('data-theme'); if(a) return a;
+      return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+    function update(){ const m=current(); btn.textContent=m==='dark'?'☀️':'🌙'; btn.setAttribute('aria-pressed', m==='dark'?'true':'false'); }
+    function setMode(m){ if(m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY,m); }
+                         else  { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
+                         update(); }
+    btn.addEventListener('click', ()=> setMode(current()==='dark' ? 'light' : 'dark'));
+    btn.addEventListener('dblclick', ()=> setMode(null)); // çift tık = Auto (OS)
+    update();
 
-    function currentMode(){
-      const attr = root.getAttribute('data-theme');
-      if (attr) return attr;
-      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    function updateBtn(){
-      const mode = currentMode();
-      btn.textContent = mode === 'dark' ? '☀️' : '🌙';
-      btn.setAttribute('aria-pressed', mode === 'dark' ? 'true' : 'false');
-    }
-    function setTheme(mode){ // 'light'|'dark'|null
-      if (mode) { root.setAttribute('data-theme', mode); localStorage.setItem(KEY, mode); }
-      else { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
-      updateBtn();
-    }
-
-    btn.addEventListener('click', ()=> setTheme(currentMode()==='dark' ? 'light' : 'dark'));
-    btn.addEventListener('dblclick', ()=> setTheme(null)); // çift tık = otomatik moda dön
-    updateBtn();
+    // Scroll: 24px sonra header okunaklı dursun
+    const H=document.getElementById('siteHeader');
+    function onScroll(){ H.classList.toggle('solid', window.scrollY>24); }
+    onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
   })();
   </script>
 </body>
