@@ -7,37 +7,35 @@
   --radius: 16px;
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
-  /* Light palette (content alanı) */
+  /* Light palette (content) */
   --l-bg:#ffffff;  --l-text:#0f172a; --l-muted:#475569; --l-card:#ffffff; --l-border:#e2e8f0;
   --l-accent:#04477e; --l-link: var(--l-accent);
 
-  /* Dark palette */
+  /* Dark palette (content) */
   --d-bg:#0b1020; --d-text:#e6edf3; --d-muted:#9aa4b2; --d-card:#121a2b; --d-border:#2b3240;
   --d-accent:#9cc7ff; --d-link: var(--d-accent);
 
-  /* Header (her iki modda aynı) */
+  /* Header rengi (şeffaf + blur; solid olduğunda #04477e) */
   --l-header-1:#04477e; --l-header-2:#04477e;
   --d-header-1:#04477e; --d-header-2:#04477e;
 
-  /* GLOBAL BACKGROUND IMAGES (default.html içine <style> ile atanır) */
-  --page-bg-image-light: none;
-  --page-bg-image-dark:  none;
-
-  /* Görsel üzerine şeffaf katman (okunurluk) */
+  /* Arka plan overlay (görsel üstü okunurluk) */
   --page-bg-overlay-light: rgba(0,0,0,.20);
   --page-bg-overlay-dark:  rgba(0,0,0,.45);
 
-  /* Aktif değerler (başlangıç: LIGHT) */
+  /* Aktif tema değişkenleri (JS/medya kuralı günceller) */
   --bg: var(--l-bg); --text: var(--l-text); --muted: var(--l-muted); --card: var(--l-card);
   --border: var(--l-border); --accent: var(--l-accent); --link: var(--l-link);
 
-  --page-bg-image:   var(--page-bg-image-light);
+  /* default.html içinde atanıyor; burada sadece bağlanıyoruz */
+  --page-bg-image-light: none;
+  --page-bg-image-dark:  none;
+  --page-bg-image: var(--page-bg-image-light);
   --page-bg-overlay: var(--page-bg-overlay-light);
 
-  /* Sticky footer yüksekliği */
-  --footer-h: 56px;
+  /* İçeriğin header altından başlaması için ofset (JS ölçer) */
+  --content-offset: 96px;
 }
-/* OS dark ve kullanıcı seçim yapmamışsa → DARK */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme]){
     --bg: var(--d-bg); --text: var(--d-text); --muted: var(--d-muted); --card: var(--d-card);
@@ -46,7 +44,6 @@
     --page-bg-overlay: var(--page-bg-overlay-dark);
   }
 }
-/* Kullanıcı butonla seçerse: */
 :root[data-theme="dark"]{
   --bg: var(--d-bg); --text: var(--d-text); --muted: var(--d-muted); --card: var(--d-card);
   --border: var(--d-border); --accent: var(--d-accent); --link: var(--d-link);
@@ -64,7 +61,7 @@
 *{box-sizing:border-box}
 html,body{ margin:0; padding:0; background:var(--bg); color:var(--text); font:16px/1.65 var(--font-sans) }
 
-/* Sayfa arkaplan resmi (bozulmadan, sabit) */
+/* Tam ekran arka plan (cover, sabit) */
 body::before{
   content:""; position:fixed; inset:0; z-index:-1;
   background-image:
@@ -74,19 +71,23 @@ body::before{
   background-position: center, center;
   background-repeat: no-repeat;
 }
-body{ padding-bottom: var(--footer-h); }
+
+body{ padding-bottom: var(--footer-h, 56px); }
 
 img{max-width:100%;height:auto;border-radius:12px}
 .container{max-width:var(--container-max);margin:0 auto;padding:24px}
 
 /* ===== TRANSPARENT HEADER ===== */
-.site-header{ position:fixed; inset:0 0 auto 0; z-index:10; background:transparent; color:#fff; border-bottom:1px solid transparent; }
+.site-header{
+  position:fixed; inset:0 0 auto 0; z-index:10;
+  background:transparent; color:#fff; border-bottom:1px solid transparent;
+}
 .header-row{display:flex;align-items:center;justify-content:space-between}
 .brand{color:#fff;text-decoration:none;font-weight:800;font-size:20px;letter-spacing:.2px; text-shadow:0 1px 2px rgba(0,0,0,.35)}
 .nav a{color:#fff;text-decoration:none;margin-left:18px;opacity:.95; text-shadow:0 1px 2px rgba(0,0,0,.35)}
 .nav a:hover{opacity:1;text-decoration:underline}
 
-/* Scroll sonrası okunaklılık */
+/* Scroll sonrası okunaklılık (hafif renk + blur) */
 .site-header.solid{
   background: color-mix(in srgb, #04477e 70%, transparent);
   backdrop-filter: saturate(180%) blur(8px);
@@ -94,11 +95,14 @@ img{max-width:100%;height:auto;border-radius:12px}
 }
 
 /* Tema butonu */
-.theme-toggle{ margin-left:12px; padding:6px 10px; border-radius:999px; cursor:pointer; background:transparent; border:1px solid rgba(255,255,255,.45); color:#fff; }
+.theme-toggle{
+  margin-left:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
+  background:transparent; border:1px solid rgba(255,255,255,.45); color:#fff;
+}
 .theme-toggle:hover{ background:rgba(255,255,255,.08) }
 
-/* İçerik */
-main{ padding-top: 84px; }
+/* ===== CONTENT ===== */
+main{ padding-top: var(--content-offset); }
 main h1{font-size:32px;margin:24px 0 12px}
 main h2{font-size:24px;margin:20px 0 10px}
 main p{margin:10px 0}
@@ -107,13 +111,13 @@ main p{margin:10px 0}
 a{ color:var(--link); text-underline-offset:2px; text-decoration-thickness:1.5px }
 a:hover{ text-decoration:underline }
 
-/* Kod blokları */
+/* Code */
 code,pre{ font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace }
 pre{ background:var(--card); border:1px solid var(--border); padding:14px; border-radius:12px; overflow:auto }
 
 /* ===== Sticky footer ===== */
 .site-footer{
-  position:fixed; left:0; right:0; bottom:0; height:var(--footer-h);
+  position:fixed; left:0; right:0; bottom:0; height:56px;
   display:flex; align-items:center; border-top:1px solid var(--border);
   background: color-mix(in srgb, var(--bg) 92%, transparent); color: var(--muted);
 }
