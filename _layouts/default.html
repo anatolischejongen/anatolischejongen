@@ -8,21 +8,17 @@
   <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   {% seo %}
 
-  <!-- Sadece masaüstü görselleri kullan: tema ile otomatik değişsin -->
+  <!-- Arka plan görselleri: tek masaüstü set, tema ile değişir -->
   <style>
     :root{
-      /* Yollar baseurl güvenli (her zaman doğru yolu üretir) */
       --page-bg-image-light: url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-desktop-2880x1620.webp");
       --page-bg-image-dark:  url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-night-desktop-2880x1620.webp");
-
-      /* Aktif görsel (CSS'in yoksa diye burada da eşliyorum) */
+      /* aktif değer (CSS de kullanıyor) */
       --page-bg-image: var(--page-bg-image-light);
     }
-    /* Kullanıcı OS karanlık modda ve manuel seçim yoksa */
     @media (prefers-color-scheme: dark){
       :root:not([data-theme]){ --page-bg-image: var(--page-bg-image-dark); }
     }
-    /* Tema düğmesi ile manuel seçimlerde */
     :root[data-theme="dark"]{  --page-bg-image: var(--page-bg-image-dark);  }
     :root[data-theme="light"]{ --page-bg-image: var(--page-bg-image-light); }
   </style>
@@ -52,33 +48,46 @@
   <script>
   (function(){
     const KEY='theme', root=document.documentElement, btn=document.getElementById('themeToggle');
+    const H=document.getElementById('siteHeader');
+
+    // Tema yükle/kur
     const saved=localStorage.getItem(KEY);
-    if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
-    else root.removeAttribute('data-theme');
+    if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved); else root.removeAttribute('data-theme');
 
     function current(){
       const a=root.getAttribute('data-theme');
-      if (a) return a;
-      return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      if(a) return a;
+      return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
     }
-    function update(){
+    function updateBtn(){
       const m=current();
       btn.textContent = m==='dark' ? '☀️' : '🌙';
       btn.setAttribute('aria-pressed', m==='dark' ? 'true' : 'false');
     }
     function setMode(m){
-      if (m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY, m); }
-      else  { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
-      update();
+      if(m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY,m); }
+      else { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
+      updateBtn(); measure();
     }
     btn.addEventListener('click', ()=> setMode(current()==='dark' ? 'light' : 'dark'));
-    btn.addEventListener('dblclick', ()=> setMode(null)); // çift tık = Auto (OS)
-    update();
+    btn.addEventListener('dblclick', ()=> setMode(null)); // Auto (OS)
+    updateBtn();
 
-    // Scroll: header okunaklılık
-    const H=document.getElementById('siteHeader');
+    // Header yüksekliğini ölç → içerik ofsetine yaz
+    function measure(){
+      const h = Math.ceil(H.getBoundingClientRect().height);
+      root.style.setProperty('--content-offset', (h + 24) + 'px');
+    }
+
+    // Scroll'da okunaklılık
     function onScroll(){ H.classList.toggle('solid', window.scrollY>24); }
     onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
+
+    // İlk ölçüm ve tekrar ölçümler
+    measure();
+    window.addEventListener('resize', measure, {passive:true});
+    try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ()=>{ updateBtn(); measure(); }); }catch(e){}
+    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
   })();
   </script>
 </body>
