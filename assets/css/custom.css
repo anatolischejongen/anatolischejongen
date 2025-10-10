@@ -1,30 +1,42 @@
-/* Üst başlık alanı için yumuşak degrade (Cayman'la iyi gider) */
-.page-header {
-  background-image: linear-gradient(120deg, #0ea5e9, #06b6d4);
+:root{
+  color-scheme: light dark;
+  --bg:#ffffff; --text:#0f172a; --muted:#475569; --card:#ffffff;
+  --accent:#0ea5e9; --border:#e2e8f0;
 }
-
-/* Linkler */
-a { text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-/* İçerik genişliği ve okunabilirlik */
-.main-content { max-width: 760px; line-height: 1.7; }
-
-/* Başlıkların belirginliği */
-h1, h2, h3 { font-weight: 700; }
-
-/* Üstte GitHub'a giden butonları tema bağımsız gizle */
-.page-header .btn,
-header .btn,
-header a[href*="github.com"] { display: none !important; }
-
-/* Alttaki footer kredilerini gizle (tema bağımsız, komple) */
-.site-footer,
-footer.site-footer,
-footer .site-footer-owner,
-footer .site-footer-credits { display: none !important; }
-
-/* Degrade başlık: farklı temalarda da uygulansın */
-.page-header, header[role="banner"] {
-  background-image: linear-gradient(120deg, #0ea5e9, #06b6d4);
+@media (prefers-color-scheme: dark){
+  :root{ --bg:#0b1020; --text:#e6edf3; --muted:#9aa4b2; --card:#121a2b; --accent:#22d3ee; --border:#2b3240; }
 }
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font:16px/1.65 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+img{max-width:100%;height:auto;border-radius:12px}
+.container{max-width:880px;margin:0 auto;padding:24px}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:10;
+  background:linear-gradient(120deg,#0ea5e9,#06b6d4); color:#fff;
+  box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.site-header .container{display:flex;align-items:center;justify-content:space-between}
+.brand{color:#fff;text-decoration:none;font-weight:800;font-size:20px;letter-spacing:.2px}
+.nav a{color:#fff;text-decoration:none;margin-left:18px;opacity:.95}
+.nav a:hover{opacity:1;text-decoration:underline}
+
+/* Content */
+main h1{font-size:32px;margin:24px 0 12px}
+main h2{font-size:24px;margin:20px 0 10px}
+main p{margin:10px 0}
+
+/* Links */
+a{color:var(--accent)}
+a:hover{text-decoration:underline}
+
+/* Lists */
+ul{padding-left:20px}
+
+/* Code blocks */
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:var(--card);border:1px solid var(--border);padding:14px;border-radius:12px;overflow:auto}
+
+/* Footer */
+.site-footer{margin-top:40px;border-top:1px solid var(--border);background:transparent;color:var(--muted)}
+.site-footer small{display:block;padding:16px 0}
