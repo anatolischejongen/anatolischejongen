@@ -11,7 +11,7 @@
   --l-bg:#ffffff;  --l-text:#0f172a; --l-muted:#475569; --l-card:#ffffff; --l-border:#e2e8f0;
   --l-accent:#6366f1;  --l-link: var(--l-accent);
   --l-header-1:#2a4f73;  /* +15% daha açık */
-  --l-header-2:#1e3a55;  /* gönderdiğin ton */
+  --l-header-2:##04477e;  /* gönderdiğin ton */
 
   /* DARK palet (koyu tema) */
   --d-bg:#0b1020; --d-text:#e6edf3; --d-muted:#9aa4b2; --d-card:#121a2b; --d-border:#2b3240;
