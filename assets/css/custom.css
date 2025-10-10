@@ -6,27 +6,28 @@
   --radius: 16px;
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
-  /* İçerik renkleri */
-  --l-bg:#ffffff;  --l-text:#e6edf3; /* Not: koyu arka plan üstüne açık metin */
-  --d-bg:#0b1020; --d-text:#e6edf3;
-  --muted:#9aa4b2; --card:transparent; --border:rgba(255,255,255,.12);
+  /* metin renkleri (koyu arka plan üstünde okunur) */
+  --text:#e6edf3; --muted:#9aa4b2;
+  --link:#9cc7ff;
 
-  /* Link/vurgu */
-  --accent:#9cc7ff; --link:#9cc7ff;
+  /* header sabit yükseklik */
+  --header-h: 72px;
 
-  /* Header ölçüsü */
-  --header-h: 80px;
+  /* default.html dolduruyor */
+  --page-bg-image: none;
+  --page-bg-overlay: rgba(0,0,0,.22);
 
-  /* Overlay değerleri default.html'de set ediliyor */
-  --page-bg-image:none; --page-bg-overlay:rgba(0,0,0,.22);
-
-  /* Footer */
   --footer-h: 56px;
 }
 
 /* ===== BASE ===== */
 *{box-sizing:border-box}
-html,body{ margin:0; padding:0; background:var(--d-bg); color:var(--d-text); font:16px/1.65 var(--font-sans) }
+html,body{
+  margin:0; padding:0;
+  background: #0b1020;           /* güvenli koyu arka plan (görsel yüklenmezse) */
+  color: var(--text);
+  font:16px/1.65 var(--font-sans);
+}
 
 /* Tüm sayfalarda arkaplan (cover) */
 body::before{
@@ -39,13 +40,13 @@ body::before{
   background-repeat: no-repeat;
 }
 
+/* container ve içerik boşluğu */
+.container{max-width:var(--container-max);margin:0 auto;padding:24px}
+main{ padding-top: calc(var(--header-h) + 24px); }
+
+/* Linkler */
 a{ color:var(--link); text-underline-offset:2px; text-decoration-thickness:1.5px }
 a:hover{ text-decoration:underline }
-
-.container{ max-width:var(--container-max); margin:0 auto; padding:24px }
-main{ padding-top: calc(var(--header-h) + 24px); }
-img{ max-width:100%; height:auto; border-radius:12px }
-pre{ background:rgba(255,255,255,.04); border:1px solid var(--border); padding:14px; border-radius:12px; overflow:auto }
 
 /* ===== HEADER — başta TAM ŞEFFAF ===== */
 .site-header{
@@ -60,14 +61,15 @@ pre{ background:rgba(255,255,255,.04); border:1px solid var(--border); padding:1
 .nav a{ color:#fff; text-decoration:none; margin-left:18px; opacity:.95; text-shadow:0 1px 2px rgba(0,0,0,.35) }
 .nav a:hover{ opacity:1; text-decoration:underline }
 
-/* Scroll edince HAFİFçe belirir */
+/* Scroll edince HAFİFçe görünür (blur + çok az renk) */
 .site-header.solid{
-  background: rgba(4,71,126,.22);
-  -webkit-backdrop-filter: blur(8px) saturate(160%);
-  backdrop-filter: blur(8px) saturate(160%);
-  border-bottom-color: rgba(255,255,255,.12);
+  background: rgba(4,71,126,.18);                    /* çok hafif mavi cam */
+  -webkit-backdrop-filter: blur(10px) saturate(160%);
+  backdrop-filter: blur(10px) saturate(160%);
+  border-bottom-color: rgba(255,255,255,.10);
 }
 
+/* Tema butonu */
 .theme-toggle{
   margin-left:12px; padding:6px 10px; border-radius:999px; cursor:pointer;
   background:transparent; border:1px solid rgba(255,255,255,.45); color:#fff;
@@ -77,8 +79,8 @@ pre{ background:rgba(255,255,255,.04); border:1px solid var(--border); padding:1
 /* ===== FOOTER ===== */
 .site-footer{
   position:fixed; left:0; right:0; bottom:0; height:var(--footer-h);
-  display:flex; align-items:center; border-top:1px solid var(--border);
-  background: rgba(0,0,0,.18); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
+  display:flex; align-items:center; border-top:1px solid rgba(255,255,255,.12);
+  background: rgba(0,0,0,.16); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px);
   color: var(--muted);
 }
 .site-footer .container{ padding-top:0; padding-bottom:0 }
