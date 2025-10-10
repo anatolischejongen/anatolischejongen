@@ -9,10 +9,12 @@
   {% seo %}
 </head>
 <body>
+  <!-- TEK header + TEK nav -->
   <header class="site-header">
-    <div class="container">
+    <div class="container header-row">
       <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-      <nav class="nav">
+
+      <nav class="nav" aria-label="Hoofdmenu">
         <a href="{{ '/blog/' | relative_url }}">Blog</a>
         <a href="{{ '/about' | relative_url }}">Over</a>
         <button class="theme-toggle" id="themeToggle" aria-pressed="false" title="Thema wisselen">🌙</button>
@@ -39,20 +41,20 @@
     </div>
   </footer>
 
+  <!-- Tema toggle: localStorage + auto (OS) uyumlu -->
   <script>
   (function(){
     const KEY = 'theme'; // 'light' | 'dark' | null(=auto)
     const root = document.documentElement;
     const btn  = document.getElementById('themeToggle');
 
-    // Apply saved preference if present
     const saved = localStorage.getItem(KEY);
     if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
     else root.removeAttribute('data-theme');
 
     function currentMode(){
       const attr = root.getAttribute('data-theme');
-      if (attr) return attr; // 'light'|'dark'
+      if (attr) return attr;
       return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     function updateBtn(){
@@ -65,8 +67,9 @@
       else { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
       updateBtn();
     }
+
     btn.addEventListener('click', ()=> setTheme(currentMode()==='dark' ? 'light' : 'dark'));
-    btn.addEventListener('dblclick', ()=> setTheme(null)); // double click: auto
+    btn.addEventListener('dblclick', ()=> setTheme(null)); // çift tık = otomatik moda dön
     updateBtn();
   })();
   </script>
