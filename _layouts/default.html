@@ -8,12 +8,11 @@
   <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   {% seo %}
 
-  <!-- Arka plan görselleri: tek masaüstü set, tema ile değişir -->
+  <!-- Arka plan görselleri: tek masaüstü set, tema ile değişir (baseurl/güvenli mutlak yol) -->
   <style>
     :root{
       --page-bg-image-light: url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-desktop-2880x1620.webp");
       --page-bg-image-dark:  url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-night-desktop-2880x1620.webp");
-      /* aktif değer (CSS de kullanıyor) */
       --page-bg-image: var(--page-bg-image-light);
     }
     @media (prefers-color-scheme: dark){
@@ -52,7 +51,8 @@
 
     // Tema yükle/kur
     const saved=localStorage.getItem(KEY);
-    if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved); else root.removeAttribute('data-theme');
+    if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
+    else root.removeAttribute('data-theme');
 
     function current(){
       const a=root.getAttribute('data-theme');
@@ -67,27 +67,15 @@
     function setMode(m){
       if(m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY,m); }
       else { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
-      updateBtn(); measure();
+      updateBtn();
     }
     btn.addEventListener('click', ()=> setMode(current()==='dark' ? 'light' : 'dark'));
     btn.addEventListener('dblclick', ()=> setMode(null)); // Auto (OS)
     updateBtn();
 
-    // Header yüksekliğini ölç → içerik ofsetine yaz
-    function measure(){
-      const h = Math.ceil(H.getBoundingClientRect().height);
-      root.style.setProperty('--content-offset', (h + 24) + 'px');
-    }
-
     // Scroll'da okunaklılık
     function onScroll(){ H.classList.toggle('solid', window.scrollY>24); }
     onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
-
-    // İlk ölçüm ve tekrar ölçümler
-    measure();
-    window.addEventListener('resize', measure, {passive:true});
-    try{ matchMedia('(prefers-color-scheme: dark)').addEventListener('change', ()=>{ updateBtn(); measure(); }); }catch(e){}
-    if (document.fonts && document.fonts.ready) document.fonts.ready.then(measure);
   })();
   </script>
 </body>
