@@ -8,63 +8,29 @@
   <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   {% seo %}
 
-  <!-- Görsel yolları (baseurl güvenli) -->
+  <!-- Arka plan görselleri: tek masaüstü set, tema ile değişsin -->
   <style>
-    /* —— Değişkenler —— */
     :root{
-      /* Header yüksekliği sabit: içerik çakışmaz */
-      --header-h: 80px;
+      --header-h: 80px; /* sabit yükseklik: içerik asla header'ın altına girmez */
 
-      /* Light/Dark arka plan görselleri (TEK masaüstü dosyaları) */
+      /* baseurl güvenli mutlak yollar */
       --page-bg-image-light: url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-desktop-2880x1620.webp");
       --page-bg-image-dark:  url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-night-desktop-2880x1620.webp");
 
-      /* Aktif görsel başlangıçta light */
+      /* aktif değerler (default = light) */
       --page-bg-image: var(--page-bg-image-light);
-
-      /* Görsel üstü okunurluk katmanı */
       --page-bg-overlay: rgba(0,0,0,.22);
     }
-    /* OS dark ve kullanıcı seçim yapmamışsa */
     @media (prefers-color-scheme: dark){
       :root:not([data-theme]){ --page-bg-image: var(--page-bg-image-dark); --page-bg-overlay: rgba(0,0,0,.45); }
     }
-    /* Tema düğmesi ile manuel seçim */
     :root[data-theme="dark"]{  --page-bg-image: var(--page-bg-image-dark);  --page-bg-overlay: rgba(0,0,0,.45); }
     :root[data-theme="light"]{ --page-bg-image: var(--page-bg-image-light); --page-bg-overlay: rgba(0,0,0,.22); }
-
-    /* —— Arka plan (fallback dahil) —— */
-    body::before{
-      content:""; position:fixed; inset:0; z-index:-1;
-      background-image:
-        linear-gradient(0deg, var(--page-bg-overlay), var(--page-bg-overlay)),
-        var(--page-bg-image);
-      background-size: cover, cover;
-      background-position: center, center;
-      background-repeat: no-repeat;
-    }
-
-    /* —— Header sabit + cam efekti —— */
-    .site-header{ position:fixed; top:0; left:0; right:0; height:var(--header-h); z-index:10; }
-    .site-header.glass{
-      background: rgba(4,71,126,.55);               /* #04477e cam efekti */
-      -webkit-backdrop-filter: blur(10px) saturate(160%);
-      backdrop-filter: blur(10px) saturate(160%);
-      border-bottom: 1px solid rgba(255,255,255,.16);
-      color:#fff;
-    }
-    .header-row{ display:flex; align-items:center; justify-content:space-between; height:100%; }
-    .brand{ color:#fff; text-decoration:none; font-weight:800; font-size:20px; letter-spacing:.2px; text-shadow:0 1px 2px rgba(0,0,0,.35); }
-    .nav a{ color:#fff; text-decoration:none; margin-left:18px; opacity:.95; text-shadow:0 1px 2px rgba(0,0,0,.35); }
-    .nav a:hover{ opacity:1; text-decoration:underline; }
-
-    /* —— İçerik headerın altında başlasın —— */
-    main{ padding-top: calc(var(--header-h) + 24px); }
   </style>
 </head>
 <body>
-  <!-- GLASS header -->
-  <header class="site-header glass" id="siteHeader">
+  <!-- Başlangıçta TAM ŞEFFAF; scroll'da .solid sınıfını JS ekler -->
+  <header class="site-header" id="siteHeader">
     <div class="container header-row">
       <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
       <nav class="nav" aria-label="Hoofdmenu">
@@ -88,17 +54,17 @@
   <script>
   (function(){
     const KEY='theme', root=document.documentElement, btn=document.getElementById('themeToggle');
+    const H=document.getElementById('siteHeader');
 
-    // Kayıtlı tema uygula
+    // Kayıtlı tema
     const saved=localStorage.getItem(KEY);
     if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
     else root.removeAttribute('data-theme');
 
-    // Buton durumu
     function current(){
-      const attr=root.getAttribute('data-theme');
-      if (attr) return attr;
-      return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';
+      const a=root.getAttribute('data-theme');
+      if (a) return a;
+      return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
     }
     function updateBtn(){
       const m=current();
@@ -113,6 +79,11 @@
     btn.addEventListener('click', ()=> setMode(current()==='dark' ? 'light' : 'dark'));
     btn.addEventListener('dblclick', ()=> setMode(null)); // Auto (OS)
     updateBtn();
+
+    // Scroll: 16px sonrası header'ı hafif göster
+    const TH=16;
+    function onScroll(){ H.classList.toggle('solid', window.scrollY>TH); }
+    onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
   })();
   </script>
 </body>
