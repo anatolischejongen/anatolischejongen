@@ -11,13 +11,14 @@
   <!-- Arka plan görselleri: tek masaüstü set, tema ile değişsin -->
   <style>
     :root{
-      --header-h: 80px; /* sabit yükseklik: içerik asla header'ın altına girmez */
+      /* header yüksekliği sabit; içerik üstüne binmez */
+      --header-h: 72px;
 
-      /* baseurl güvenli mutlak yollar */
-      --page-bg-image-light: url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-desktop-2880x1620.webp");
-      --page-bg-image-dark:  url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-night-desktop-2880x1620.webp");
+      /* absolute_url => url + baseurl birleştirir, yanılma payı yok */
+      --page-bg-image-light: url("{{ '/assets/img/bg2-desktop-2880x1620.webp' | absolute_url }}");
+      --page-bg-image-dark:  url("{{ '/assets/img/bg2-night-desktop-2880x1620.webp' | absolute_url }}");
 
-      /* aktif değerler (default = light) */
+      /* aktif değerler */
       --page-bg-image: var(--page-bg-image-light);
       --page-bg-overlay: rgba(0,0,0,.22);
     }
@@ -29,7 +30,7 @@
   </style>
 </head>
 <body>
-  <!-- Başlangıçta TAM ŞEFFAF; scroll'da .solid sınıfını JS ekler -->
+  <!-- başlangıçta TAM şeffaf; scroll’da hafif ortaya çıksın -->
   <header class="site-header" id="siteHeader">
     <div class="container header-row">
       <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
@@ -56,7 +57,7 @@
     const KEY='theme', root=document.documentElement, btn=document.getElementById('themeToggle');
     const H=document.getElementById('siteHeader');
 
-    // Kayıtlı tema
+    // kayıtlı tema
     const saved=localStorage.getItem(KEY);
     if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
     else root.removeAttribute('data-theme');
@@ -80,8 +81,8 @@
     btn.addEventListener('dblclick', ()=> setMode(null)); // Auto (OS)
     updateBtn();
 
-    // Scroll: 16px sonrası header'ı hafif göster
-    const TH=16;
+    // scroll 120px sonra hafif görünür
+    const TH=120;
     function onScroll(){ H.classList.toggle('solid', window.scrollY>TH); }
     onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
   })();
