@@ -8,17 +8,14 @@
   <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   {% seo %}
 
-  <!-- Arka plan görselleri: tek masaüstü set, tema ile değişsin -->
   <style>
     :root{
-      /* header yüksekliği sabit; içerik üstüne binmez */
       --header-h: 72px;
 
-      /* absolute_url => url + baseurl birleştirir, yanılma payı yok */
+      /* Arkaplan görselleri – mutlak yol (baseurl güvenli) */
       --page-bg-image-light: url("{{ '/assets/img/bg2-desktop-2880x1620.webp' | absolute_url }}");
       --page-bg-image-dark:  url("{{ '/assets/img/bg2-night-desktop-2880x1620.webp' | absolute_url }}");
 
-      /* aktif değerler */
       --page-bg-image: var(--page-bg-image-light);
       --page-bg-overlay: rgba(0,0,0,.22);
     }
@@ -30,7 +27,7 @@
   </style>
 </head>
 <body>
-  <!-- başlangıçta TAM şeffaf; scroll’da hafif ortaya çıksın -->
+  <!-- Başlangıçta TAM şeffaf; scroll’da hafif belirir -->
   <header class="site-header" id="siteHeader">
     <div class="container header-row">
       <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
@@ -57,33 +54,22 @@
     const KEY='theme', root=document.documentElement, btn=document.getElementById('themeToggle');
     const H=document.getElementById('siteHeader');
 
-    // kayıtlı tema
     const saved=localStorage.getItem(KEY);
     if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
     else root.removeAttribute('data-theme');
 
-    function current(){
-      const a=root.getAttribute('data-theme');
-      if (a) return a;
-      return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-    }
-    function updateBtn(){
-      const m=current();
-      btn.textContent = m==='dark' ? '☀️' : '🌙';
-      btn.setAttribute('aria-pressed', m==='dark'?'true':'false');
-    }
-    function setMode(m){
-      if (m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY,m); }
-      else   { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
-      updateBtn();
-    }
-    btn.addEventListener('click', ()=> setMode(current()==='dark' ? 'light' : 'dark'));
+    function current(){ const a=root.getAttribute('data-theme'); if(a) return a;
+      return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
+    function updateBtn(){ const m=current(); btn.textContent=m==='dark'?'☀️':'🌙'; btn.setAttribute('aria-pressed', m==='dark'?'true':'false'); }
+    function setMode(m){ if(m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY,m); }
+                         else { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
+                         updateBtn(); }
+    btn.addEventListener('click', ()=> setMode(current()==='dark'?'light':'dark'));
     btn.addEventListener('dblclick', ()=> setMode(null)); // Auto (OS)
     updateBtn();
 
-    // scroll 120px sonra hafif görünür
-    const TH=120;
-    function onScroll(){ H.classList.toggle('solid', window.scrollY>TH); }
+    // 120px sonra header’ı hafif görünür yap
+    function onScroll(){ H.classList.toggle('solid', window.scrollY>120); }
     onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
   })();
   </script>
