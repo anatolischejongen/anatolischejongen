@@ -1,0 +1,84 @@
+/* ========== DESIGN TOKENS ========== */
+:root{
+  color-scheme: light dark;
+
+  /* Layout / type */
+  --container-max: 880px;
+  --radius: 16px;
+  --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+
+  /* LIGHT (edit these to change your palette) */
+  --l-bg:#ffffff; --l-text:#0f172a; --l-muted:#475569; --l-card:#ffffff; --l-border:#e2e8f0;
+  --l-accent:#0ea5e9; --l-link: var(--l-accent);
+  --l-header-1:#0ea5e9; --l-header-2:#06b6d4;
+
+  /* DARK */
+  --d-bg:#0b1020; --d-text:#e6edf3; --d-muted:#9aa4b2; --d-card:#121a2b; --d-border:#2b3240;
+  --d-accent:#22d3ee; --d-link: var(--d-accent);
+  --d-header-1:#22d3ee; --d-header-2:#0891b2;
+
+  /* Active (defaults to LIGHT; JS/CSS may switch) */
+  --bg: var(--l-bg); --text: var(--l-text); --muted: var(--l-muted); --card: var(--l-card);
+  --border: var(--l-border); --accent: var(--l-accent); --link: var(--l-link);
+  --header-1: var(--l-header-1); --header-2: var(--l-header-2);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme]){
+    --bg: var(--d-bg); --text: var(--d-text); --muted: var(--d-muted); --card: var(--d-card);
+    --border: var(--d-border); --accent: var(--d-accent); --link: var(--d-link);
+    --header-1: var(--d-header-1); --header-2: var(--d-header-2);
+  }
+}
+:root[data-theme="dark"]{
+  --bg: var(--d-bg); --text: var(--d-text); --muted: var(--d-muted); --card: var(--d-card);
+  --border: var(--d-border); --accent: var(--d-accent); --link: var(--d-link);
+  --header-1: var(--d-header-1); --header-2: var(--d-header-2);
+}
+:root[data-theme="light"]{
+  --bg: var(--l-bg); --text: var(--l-text); --muted: var(--l-muted); --card: var(--l-card);
+  --border: var(--l-border); --accent: var(--l-accent); --link: var(--l-link);
+  --header-1: var(--l-header-1); --header-2: var(--l-header-2);
+}
+
+/* ========== BASE ========== */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.65 var(--font-sans)}
+img{max-width:100%;height:auto;border-radius:12px}
+.container{max-width:var(--container-max);margin:0 auto;padding:24px}
+
+/* Header */
+.site-header{position:sticky;top:0;z-index:10;
+  background:linear-gradient(120deg, var(--header-1), var(--header-2));
+  color:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08)}
+.site-header .container{display:flex;align-items:center;justify-content:space-between}
+.brand{color:#fff;text-decoration:none;font-weight:800;font-size:20px;letter-spacing:.2px}
+.nav a{color:#fff;text-decoration:none;margin-left:18px;opacity:.95}
+.nav a:hover{opacity:1;text-decoration:underline}
+.theme-toggle{margin-left:12px;padding:6px 10px;border-radius:999px;cursor:pointer;
+  background:transparent;border:1px solid rgba(255,255,255,.45);color:#fff}
+.theme-toggle:hover{background:rgba(255,255,255,.08)}
+
+/* Hero */
+.hero{position:relative;background-size:cover;background-position:center;
+      padding:80px 0;color:#fff;margin-bottom:20px}
+.hero::before{content:"";position:absolute;inset:0;background:rgba(0,0,0,.35)}
+.hero .container{position:relative}
+.hero-title{font-size:36px;margin:0 0 6px}
+.hero-sub{margin:0;font-weight:600;opacity:.95}
+
+/* Content */
+main h1{font-size:32px;margin:24px 0 12px}
+main h2{font-size:24px;margin:20px 0 10px}
+main p{margin:10px 0}
+
+/* Links */
+a{color:var(--link)}
+a:hover{text-decoration:underline}
+
+/* Code blocks */
+code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
+pre{background:var(--card);border:1px solid var(--border);padding:14px;border-radius:12px;overflow:auto}
+
+/* Footer */
+.site-footer{margin-top:40px;border-top:1px solid var(--border);background:transparent;color:var(--muted)}
+.site-footer small{display:block;padding:16px 0}

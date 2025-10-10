@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+  {% seo %}
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <nav class="nav">
+        <a href="{{ '/blog/' | relative_url }}">Blog</a>
+        <a href="{{ '/about' | relative_url }}">Over</a>
+        <button class="theme-toggle" id="themeToggle" aria-pressed="false" title="Thema wisselen">🌙</button>
+      </nav>
+    </div>
+  </header>
+
+  {% if page.hero %}
+  <section class="hero" style="background-image:url('{{ page.hero_image | relative_url }}')">
+    <div class="container">
+      <h1 class="hero-title">{{ page.hero_title }}</h1>
+      <p class="hero-sub">{{ page.hero_subtitle }}</p>
+    </div>
+  </section>
+  {% endif %}
+
+  <main class="container">
+    {{ content }}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <small>© {{ site.time | date: '%Y' }} {{ site.title }}</small>
+    </div>
+  </footer>
+
+  <script>
+  (function(){
+    const KEY = 'theme'; // 'light' | 'dark' | null(=auto)
+    const root = document.documentElement;
+    const btn  = document.getElementById('themeToggle');
+
+    // Apply saved preference if present
+    const saved = localStorage.getItem(KEY);
+    if (saved === 'light' || saved === 'dark') root.setAttribute('data-theme', saved);
+    else root.removeAttribute('data-theme');
+
+    function currentMode(){
+      const attr = root.getAttribute('data-theme');
+      if (attr) return attr; // 'light'|'dark'
+      return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function updateBtn(){
+      const mode = currentMode();
+      btn.textContent = mode === 'dark' ? '☀️' : '🌙';
+      btn.setAttribute('aria-pressed', mode === 'dark' ? 'true' : 'false');
+    }
+    function setTheme(mode){ // 'light'|'dark'|null
+      if (mode) { root.setAttribute('data-theme', mode); localStorage.setItem(KEY, mode); }
+      else { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
+      updateBtn();
+    }
+    btn.addEventListener('click', ()=> setTheme(currentMode()==='dark' ? 'light' : 'dark'));
+    btn.addEventListener('dblclick', ()=> setTheme(null)); // double click: auto
+    updateBtn();
+  })();
+  </script>
+</body>
+</html>
