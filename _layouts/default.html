@@ -8,20 +8,23 @@
   <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
   {% seo %}
 
-  <!-- Arka plan görselleri: LIGHT ve DARK için ayrı dosyalar -->
+  <!-- Sadece masaüstü görselleri kullan: tema ile otomatik değişsin -->
   <style>
     :root{
-      /* Masaüstü varsayılanları */
-      --page-bg-image-light: url("{{ '/assets/img/bg2-desktop-2880x1620.webp' | relative_url }}");
-      --page-bg-image-dark:  url("{{ '/assets/img/bg2-night-desktop-2880x1620.webp' | relative_url }}");
+      /* Yollar baseurl güvenli (her zaman doğru yolu üretir) */
+      --page-bg-image-light: url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-desktop-2880x1620.webp");
+      --page-bg-image-dark:  url("{{ site.url }}{{ site.baseurl }}/assets/img/bg2-night-desktop-2880x1620.webp");
+
+      /* Aktif görsel (CSS'in yoksa diye burada da eşliyorum) */
+      --page-bg-image: var(--page-bg-image-light);
     }
-    /* Mobil kırılımında mobil görselleri kullan */
-    @media (max-width: 680px){
-      :root{
-        --page-bg-image-light: url("{{ '/assets/img/bg2-mobile-1080x2340.webp' | relative_url }}");
-        --page-bg-image-dark:  url("{{ '/assets/img/bg2-night-mobile-1080x2340.webp' | relative_url }}");
-      }
+    /* Kullanıcı OS karanlık modda ve manuel seçim yoksa */
+    @media (prefers-color-scheme: dark){
+      :root:not([data-theme]){ --page-bg-image: var(--page-bg-image-dark); }
     }
+    /* Tema düğmesi ile manuel seçimlerde */
+    :root[data-theme="dark"]{  --page-bg-image: var(--page-bg-image-dark);  }
+    :root[data-theme="light"]{ --page-bg-image: var(--page-bg-image-light); }
   </style>
 </head>
 <body>
@@ -50,19 +53,29 @@
   (function(){
     const KEY='theme', root=document.documentElement, btn=document.getElementById('themeToggle');
     const saved=localStorage.getItem(KEY);
-    if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved); else root.removeAttribute('data-theme');
+    if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
+    else root.removeAttribute('data-theme');
 
-    function current(){ const a=root.getAttribute('data-theme'); if(a) return a;
-      return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
-    function update(){ const m=current(); btn.textContent=m==='dark'?'☀️':'🌙'; btn.setAttribute('aria-pressed', m==='dark'?'true':'false'); }
-    function setMode(m){ if(m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY,m); }
-                         else  { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
-                         update(); }
+    function current(){
+      const a=root.getAttribute('data-theme');
+      if (a) return a;
+      return matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    }
+    function update(){
+      const m=current();
+      btn.textContent = m==='dark' ? '☀️' : '🌙';
+      btn.setAttribute('aria-pressed', m==='dark' ? 'true' : 'false');
+    }
+    function setMode(m){
+      if (m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY, m); }
+      else  { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
+      update();
+    }
     btn.addEventListener('click', ()=> setMode(current()==='dark' ? 'light' : 'dark'));
     btn.addEventListener('dblclick', ()=> setMode(null)); // çift tık = Auto (OS)
     update();
 
-    // Scroll: 24px sonra header okunaklı dursun
+    // Scroll: header okunaklılık
     const H=document.getElementById('siteHeader');
     function onScroll(){ H.classList.toggle('solid', window.scrollY>24); }
     onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
