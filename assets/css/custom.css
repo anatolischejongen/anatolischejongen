@@ -1,35 +1,23 @@
-/* ===== TOKENS ===== */
 :root{
   color-scheme: light dark;
-
   --container-max: 880px;
-  --radius: 16px;
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
-  /* metin renkleri (koyu arka plan üstünde okunur) */
   --text:#e6edf3; --muted:#9aa4b2;
   --link:#9cc7ff;
 
-  /* header sabit yükseklik */
   --header-h: 72px;
-
-  /* default.html dolduruyor */
   --page-bg-image: none;
   --page-bg-overlay: rgba(0,0,0,.22);
 
   --footer-h: 56px;
 }
 
-/* ===== BASE ===== */
+/* Genel */
 *{box-sizing:border-box}
-html,body{
-  margin:0; padding:0;
-  background: #0b1020;           /* güvenli koyu arka plan (görsel yüklenmezse) */
-  color: var(--text);
-  font:16px/1.65 var(--font-sans);
-}
+html,body{ margin:0; padding:0; background:#0b1020; color:var(--text); font:16px/1.65 var(--font-sans) }
 
-/* Tüm sayfalarda arkaplan (cover) */
+/* Tüm sayfalarda fullscreen arkaplan */
 body::before{
   content:""; position:fixed; inset:0; z-index:-1;
   background-image:
@@ -40,15 +28,13 @@ body::before{
   background-repeat: no-repeat;
 }
 
-/* container ve içerik boşluğu */
-.container{max-width:var(--container-max);margin:0 auto;padding:24px}
+.container{ max-width:var(--container-max); margin:0 auto; padding:24px }
 main{ padding-top: calc(var(--header-h) + 24px); }
 
-/* Linkler */
 a{ color:var(--link); text-underline-offset:2px; text-decoration-thickness:1.5px }
 a:hover{ text-decoration:underline }
 
-/* ===== HEADER — başta TAM ŞEFFAF ===== */
+/* Header – başta tamamen şeffaf */
 .site-header{
   position:fixed; left:0; right:0; top:0; height:var(--header-h); z-index:10;
   background: transparent;
@@ -57,13 +43,13 @@ a:hover{ text-decoration:underline }
   color:#fff;
 }
 .header-row{ display:flex; align-items:center; justify-content:space-between; height:100% }
-.brand{ color:#fff; text-decoration:none; font-weight:800; font-size:20px; letter-spacing:.2px; text-shadow:0 1px 2px rgba(0,0,0,.35) }
+.brand{ color:#fff; text-decoration:none; font-weight:800; font-size:20px; text-shadow:0 1px 2px rgba(0,0,0,.35) }
 .nav a{ color:#fff; text-decoration:none; margin-left:18px; opacity:.95; text-shadow:0 1px 2px rgba(0,0,0,.35) }
 .nav a:hover{ opacity:1; text-decoration:underline }
 
-/* Scroll edince HAFİFçe görünür (blur + çok az renk) */
+/* Scroll edince çok hafif cam efekti */
 .site-header.solid{
-  background: rgba(4,71,126,.18);                    /* çok hafif mavi cam */
+  background: rgba(4,71,126,.18);
   -webkit-backdrop-filter: blur(10px) saturate(160%);
   backdrop-filter: blur(10px) saturate(160%);
   border-bottom-color: rgba(255,255,255,.10);
@@ -76,7 +62,7 @@ a:hover{ text-decoration:underline }
 }
 .theme-toggle:hover{ background:rgba(255,255,255,.08) }
 
-/* ===== FOOTER ===== */
+/* Footer (sabit) */
 .site-footer{
   position:fixed; left:0; right:0; bottom:0; height:var(--footer-h);
   display:flex; align-items:center; border-top:1px solid rgba(255,255,255,.12);
