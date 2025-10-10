@@ -1,4 +1,4 @@
-/* ===== DESIGN TOKENS (sadece bu bloktaki renkleri değiştirmen yeter) ===== */
+/* ===== DESIGN TOKENS (renkleri burada değiştir) ===== */
 :root{
   color-scheme: light dark;
 
@@ -7,22 +7,29 @@
   --radius: 16px;
   --font-sans: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
 
-  /* LIGHT palet */
+  /* LIGHT palet (açık tema) – indigo ağırlıklı */
   --l-bg:#ffffff;  --l-text:#0f172a; --l-muted:#475569; --l-card:#ffffff; --l-border:#e2e8f0;
-  --l-accent:#0ea5e9; --l-link: var(--l-accent);
-  --l-header-1:#0ea5e9; --l-header-2:#06b6d4;
+  --l-accent:#6366f1;  --l-link: var(--l-accent);
+  --l-header-1:#312e81; /* indigo-900 */
+  --l-header-2:#1e3a8a; /* indigo-800 */
 
-  /* DARK palet */
+  /* DARK palet (koyu tema) */
   --d-bg:#0b1020; --d-text:#e6edf3; --d-muted:#9aa4b2; --d-card:#121a2b; --d-border:#2b3240;
-  --d-accent:#22d3ee; --d-link: var(--d-accent);
-  --d-header-1:#22d3ee; --d-header-2:#0891b2;
+  --d-accent:#a78bfa;  --d-link: var(--d-accent);
+  --d-header-1:#0b1220;
+  --d-header-2:#1f2937;
 
   /* Aktif (varsayılan LIGHT; JS/CSS bunu değiştirir) */
   --bg: var(--l-bg); --text: var(--l-text); --muted: var(--l-muted); --card: var(--l-card);
   --border: var(--l-border); --accent: var(--l-accent); --link: var(--l-link);
   --header-1: var(--l-header-1); --header-2: var(--l-header-2);
+
+  /* Header’a opsiyonel görsel (varsayılan: yok) */
+  --header-bg-image: none;
+
+  /* Sticky footer yüksekliği */
+  --footer-h: 56px;
 }
-/* OS karanlık moddaysa ve kullanıcı bir şey seçmediyse: DARK */
 @media (prefers-color-scheme: dark){
   :root:not([data-theme]){
     --bg: var(--d-bg); --text: var(--d-text); --muted: var(--d-muted); --card: var(--d-card);
@@ -30,7 +37,6 @@
     --header-1: var(--d-header-1); --header-2: var(--d-header-2);
   }
 }
-/* Kullanıcı butonla seçerse: */
 :root[data-theme="dark"]{
   --bg: var(--d-bg); --text: var(--d-text); --muted: var(--d-muted); --card: var(--d-card);
   --border: var(--d-border); --accent: var(--d-accent); --link: var(--d-link);
@@ -44,14 +50,24 @@
 
 /* ===== BASE ===== */
 *{box-sizing:border-box}
-html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.65 var(--font-sans)}
+html,body{
+  margin:0; padding:0; background:var(--bg); color:var(--text);
+  font:16px/1.65 var(--font-sans);
+}
+/* Sticky footer için boşluk */
+body{ padding-bottom: var(--footer-h); }
+
 img{max-width:100%;height:auto;border-radius:12px}
 .container{max-width:var(--container-max);margin:0 auto;padding:24px}
 
 /* Header */
 .site-header{
   position:sticky; top:0; z-index:10;
-  background:linear-gradient(120deg, var(--header-1), var(--header-2));
+  background-image:
+    linear-gradient(120deg, var(--header-1), var(--header-2)),
+    var(--header-bg-image);
+  background-size: cover, cover;
+  background-position: center, center;
   color:#fff; box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
 .header-row{display:flex;align-items:center;justify-content:space-between}
@@ -74,19 +90,26 @@ img{max-width:100%;height:auto;border-radius:12px}
 .hero-title{font-size:36px;margin:0 0 6px}
 .hero-sub{margin:0;font-weight:600;opacity:.95}
 
-/* Content */
+/* İçerik */
 main h1{font-size:32px;margin:24px 0 12px}
 main h2{font-size:24px;margin:20px 0 10px}
 main p{margin:10px 0}
 
-/* Links */
+/* Linkler */
 a{color:var(--link)}
 a:hover{text-decoration:underline}
 
-/* Code blocks */
+/* Kod blokları */
 code,pre{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace}
 pre{background:var(--card);border:1px solid var(--border);padding:14px;border-radius:12px;overflow:auto}
 
-/* Footer */
-.site-footer{margin-top:40px;border-top:1px solid var(--border);background:transparent;color:var(--muted)}
-.site-footer small{display:block;padding:16px 0}
+/* ===== Sticky footer (alta yapışık) ===== */
+.site-footer{
+  position:fixed; left:0; right:0; bottom:0;
+  height: var(--footer-h);
+  display:flex; align-items:center;
+  border-top:1px solid var(--border);
+  background: var(--bg);
+  color: var(--muted);
+}
+.site-footer .container{padding-top:0; padding-bottom:0}
