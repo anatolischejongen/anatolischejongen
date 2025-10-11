@@ -4,74 +4,114 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{% if page.title %}{{ page.title }} · {% endif %}{{ site.title }}</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ '/assets/css/custom.css' | relative_url }}">
+  <link rel="stylesheet" href="{{ '/assets/css/site.css' | relative_url }}">
   {% seo %}
-
   <style>
     :root{
-      --header-h: 72px;
-
-      /* Arkaplan görselleri – mutlak yol (baseurl güvenli) */
-      --page-bg-image-light: url("{{ '/assets/img/bg2-desktop-2880x1620.webp' | absolute_url }}");
-      --page-bg-image-dark:  url("{{ '/assets/img/bg2-night-desktop-2880x1620.webp' | absolute_url }}");
-
-      --page-bg-image: var(--page-bg-image-light);
-      --page-bg-overlay: rgba(0,0,0,.22);
+      --bg-image-light: url("{{ '/assets/img/bg2-desktop-2880x1620.webp' | relative_url }}");
+      --bg-image-dark: url("{{ '/assets/img/bg2-night-desktop-2880x1620.webp' | relative_url }}");
+      --bg-image-mobile-light: var(--bg-image-light);
+      --bg-image-mobile-dark: var(--bg-image-dark);
     }
-    @media (prefers-color-scheme: dark){
-      :root:not([data-theme]){ --page-bg-image: var(--page-bg-image-dark); --page-bg-overlay: rgba(0,0,0,.45); }
+    @media (max-width: 768px){
+      :root{
+        --bg-image-light: var(--bg-image-mobile-light);
+        --bg-image-dark: var(--bg-image-mobile-dark);
+      }
     }
-    :root[data-theme="dark"]{  --page-bg-image: var(--page-bg-image-dark);  --page-bg-overlay: rgba(0,0,0,.45); }
-    :root[data-theme="light"]{ --page-bg-image: var(--page-bg-image-light); --page-bg-overlay: rgba(0,0,0,.22); }
   </style>
 </head>
 <body>
-  <!-- Başlangıçta TAM şeffaf; scroll’da hafif belirir -->
   <header class="site-header" id="siteHeader">
-    <div class="container header-row">
+    <div class="shell">
       <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-      <nav class="nav" aria-label="Hoofdmenu">
+      <nav class="main-nav" aria-label="Hoofdmenu">
+        <a href="{{ '/' | relative_url }}">Home</a>
         <a href="{{ '/blog/' | relative_url }}">Blog</a>
         <a href="{{ '/about' | relative_url }}">Over</a>
-        <button class="theme-toggle" id="themeToggle" aria-pressed="false" title="Thema wisselen">🌙</button>
       </nav>
+      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Schakel thema">
+        <span aria-hidden="true"></span>
+      </button>
     </div>
   </header>
 
-  <main class="container">
+  <main class="page">
     {{ content }}
   </main>
 
   <footer class="site-footer">
-    <div class="container">
+    <div class="shell">
       <small>© {{ site.time | date: '%Y' }} {{ site.title }}</small>
     </div>
   </footer>
 
   <script>
-  (function(){
-    const KEY='theme', root=document.documentElement, btn=document.getElementById('themeToggle');
-    const H=document.getElementById('siteHeader');
+    (function(){
+      const STORAGE_KEY = 'theme';
+      const root = document.documentElement;
+      const toggle = document.getElementById('themeToggle');
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
 
-    const saved=localStorage.getItem(KEY);
-    if (saved==='light'||saved==='dark') root.setAttribute('data-theme',saved);
-    else root.removeAttribute('data-theme');
+      function getStored(){
+        try {
+          const value = localStorage.getItem(STORAGE_KEY);
+          return value === 'light' || value === 'dark' ? value : null;
+        } catch (_) {
+          return null;
+        }
+      }
 
-    function current(){ const a=root.getAttribute('data-theme'); if(a) return a;
-      return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'; }
-    function updateBtn(){ const m=current(); btn.textContent=m==='dark'?'☀️':'🌙'; btn.setAttribute('aria-pressed', m==='dark'?'true':'false'); }
-    function setMode(m){ if(m){ root.setAttribute('data-theme', m); localStorage.setItem(KEY,m); }
-                         else { root.removeAttribute('data-theme'); localStorage.removeItem(KEY); }
-                         updateBtn(); }
-    btn.addEventListener('click', ()=> setMode(current()==='dark'?'light':'dark'));
-    btn.addEventListener('dblclick', ()=> setMode(null)); // Auto (OS)
-    updateBtn();
+      function store(value){
+        try {
+          if (value) localStorage.setItem(STORAGE_KEY, value);
+          else localStorage.removeItem(STORAGE_KEY);
+        } catch (_) {}
+      }
 
-    // 120px sonra header’ı hafif görünür yap
-    function onScroll(){ H.classList.toggle('solid', window.scrollY>120); }
-    onScroll(); window.addEventListener('scroll', onScroll, {passive:true});
-  })();
+      function systemTheme(){
+        return prefersDark.matches ? 'dark' : 'light';
+      }
+
+      function currentTheme(){
+        return root.getAttribute('data-theme') || systemTheme();
+      }
+
+      function setTheme(next){
+        if (next === 'dark' || next === 'light') {
+          root.setAttribute('data-theme', next);
+          store(next);
+        } else {
+          root.removeAttribute('data-theme');
+          store(null);
+        }
+        updateToggle();
+      }
+
+      function updateToggle(){
+        const mode = currentTheme();
+        toggle.dataset.mode = mode;
+        toggle.setAttribute('aria-pressed', mode === 'dark');
+        toggle.setAttribute('aria-label', mode === 'dark' ? 'Schakel naar dagmodus' : 'Schakel naar nachtmodus');
+      }
+
+      const stored = getStored();
+      if (stored) {
+        root.setAttribute('data-theme', stored);
+      }
+      updateToggle();
+
+      toggle.addEventListener('click', () => {
+        const next = currentTheme() === 'dark' ? 'light' : 'dark';
+        setTheme(next);
+      });
+
+      toggle.addEventListener('dblclick', () => setTheme(null));
+
+      prefersDark.addEventListener?.('change', () => {
+        if (!getStored()) updateToggle();
+      });
+    })();
   </script>
 </body>
 </html>
