@@ -4,13 +4,8 @@ title: Welkom
 ---
 
 <section class="hero shell">
-  <span class="eyebrow">Said • persoonlijke blog</span>
   <h1>Korte verhalen, observaties en notities uit mijn dagboek</h1>
   <p>Ik schrijf elke week een nieuw stukje – over taal, migratie, cultuur en dagelijkse momenten. Pak er een koffie bij en blader door mijn notities.</p>
-  <div class="hero-actions">
-    <a class="btn btn-primary" href="{{ '/blog/' | relative_url }}">Lees de nieuwste posts</a>
-    <a class="btn btn-secondary" href="{{ '/about' | relative_url }}">Meer over mij</a>
-  </div>
 </section>
 
 <section class="layout-panels">

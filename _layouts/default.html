@@ -23,16 +23,18 @@
 </head>
 <body>
   <header class="site-header" id="siteHeader">
-    <div class="shell">
+    <div class="site-header__inner">
       <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
-      <nav class="main-nav" aria-label="Hoofdmenu">
-        <a href="{{ '/' | relative_url }}">Home</a>
-        <a href="{{ '/blog/' | relative_url }}">Blog</a>
-        <a href="{{ '/about' | relative_url }}">Over</a>
-      </nav>
-      <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Schakel thema">
-        <span aria-hidden="true"></span>
-      </button>
+      <div class="site-header__right">
+        <nav class="main-nav" aria-label="Hoofdmenu">
+          <a href="{{ '/' | relative_url }}">Home</a>
+          <a href="{{ '/blog/' | relative_url }}">Blog</a>
+          <a href="{{ '/about' | relative_url }}">Over</a>
+        </nav>
+        <button class="theme-toggle" id="themeToggle" type="button" aria-pressed="false" aria-label="Schakel thema">
+          <span aria-hidden="true"></span>
+        </button>
+      </div>
     </div>
   </header>
 
@@ -52,6 +54,9 @@
       const root = document.documentElement;
       const toggle = document.getElementById('themeToggle');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+      const header = document.getElementById('siteHeader');
+      let lastScrollY = window.scrollY;
+      let ticking = false;
 
       function getStored(){
         try {
@@ -110,6 +115,46 @@
 
       prefersDark.addEventListener?.('change', () => {
         if (!getStored()) updateToggle();
+      });
+
+      function syncHeaderHeight(){
+        if (!header) return;
+        const height = header.offsetHeight;
+        root.style.setProperty('--header-height', `${Math.round(height)}px`);
+      }
+
+      function updateHeaderVisibility(){
+        if (!header) return;
+        const currentY = window.scrollY;
+        const threshold = header.offsetHeight * 0.6;
+        const scrollingDown = currentY > lastScrollY;
+        const scrollingUp = currentY < lastScrollY;
+
+        if (currentY <= threshold || scrollingUp) {
+          header.classList.remove('is-hidden');
+        } else if (scrollingDown && currentY > threshold) {
+          header.classList.add('is-hidden');
+        }
+
+        lastScrollY = currentY;
+      }
+
+      function onScroll(){
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          updateHeaderVisibility();
+          ticking = false;
+        });
+      }
+
+      syncHeaderHeight();
+      updateHeaderVisibility();
+
+      window.addEventListener('scroll', onScroll, { passive: true });
+      window.addEventListener('resize', () => {
+        syncHeaderHeight();
+        updateHeaderVisibility();
       });
     })();
   </script>
