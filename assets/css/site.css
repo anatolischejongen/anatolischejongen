@@ -15,7 +15,7 @@
   --bg-overlay: rgba(255,255,255,0.0);
   --bg-fallback: #ebf4ff;
 
-  --header-height: 72px;
+  --page-top-spacing: clamp(120px, 16vw, 200px);
 
   --header-fg: #f8fafc;
   --header-border: rgba(255,255,255,0.15);
@@ -41,6 +41,7 @@
     --surface-shadow: 0 28px 60px -32px rgba(0,0,0,0.55);
     --bg-overlay: rgba(8,15,35,0.08);
     --bg-fallback: #0f172a;
+    --page-top-spacing: clamp(132px, 20vw, 220px);
     --header-fg: #f8fafc;
     --header-border: rgba(255,255,255,0.18);
     --header-shadow: 0 2px 16px rgba(0,0,0,0.65);
@@ -63,6 +64,7 @@
   --surface-shadow: 0 28px 60px -36px rgba(15,23,42,0.3);
   --bg-overlay: rgba(255,255,255,0.0);
   --bg-fallback: #ebf4ff;
+  --page-top-spacing: clamp(120px, 16vw, 200px);
   --header-fg: #f8fafc;
   --header-border: rgba(255,255,255,0.15);
   --header-shadow: 0 2px 14px rgba(15,23,42,0.25);
@@ -84,6 +86,7 @@
   --surface-shadow: 0 28px 60px -32px rgba(0,0,0,0.55);
   --bg-overlay: rgba(8,15,35,0.08);
   --bg-fallback: #0f172a;
+  --page-top-spacing: clamp(132px, 20vw, 220px);
   --header-fg: #f8fafc;
   --header-border: rgba(255,255,255,0.18);
   --header-shadow: 0 2px 16px rgba(0,0,0,0.65);
@@ -112,25 +115,18 @@ html{
 
 body{
   position:relative;
-  background: transparent;
-}
-
-body::before{
-  content:"";
-  position:fixed;
-  inset:0;
-  z-index:-1;
+  background-color: var(--bg-fallback);
   background-image:
     linear-gradient(180deg, var(--bg-overlay), var(--bg-overlay)),
     var(--bg-image);
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center top;
   background-attachment: fixed;
 }
 
 @media (max-width: 768px){
-  body::before{
+  body{
     background-position: center top;
     background-size: cover;
     background-attachment: scroll;
@@ -140,33 +136,22 @@ body::before{
 .shell{
   width:min(1120px, 100%);
   margin:0 auto;
-  padding:0 32px;
+  padding:0 clamp(16px, 4vw, 48px);
 }
 
 .site-header{
-  position:fixed;
+  position:sticky;
   top:0;
   left:0;
   right:0;
-  z-index:20;
+  z-index:30;
   width:100%;
   color: var(--header-fg);
   background: transparent;
   border-bottom:none;
-  padding-top:16px;
   transform: translateY(0);
-  transition: transform .32s ease, opacity .32s ease;
+  transition: transform .3s ease, opacity .3s ease;
   opacity:1;
-}
-
-.site-header::after{
-  content:"";
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-  background: linear-gradient(180deg, rgba(0,0,0,0.18), rgba(0,0,0,0));
-  opacity:0.45;
-  z-index:-1;
 }
 
 .site-header.is-hidden{
@@ -175,22 +160,15 @@ body::before{
   pointer-events:none;
 }
 
-.page::before{
-  content:"";
-  display:block;
-  height:var(--header-height);
-  width:100%;
-}
-
 .site-header__inner{
   display:flex;
   align-items:center;
   justify-content:space-between;
-  gap:32px;
-  min-height: var(--header-height);
+  gap: clamp(20px, 3vw, 32px);
   width:100%;
-  margin:0;
-  padding:0 clamp(24px, 5vw, 72px);
+  max-width:min(1120px, 100%);
+  margin:0 auto;
+  padding: clamp(14px, 2.8vw, 24px) clamp(16px, 4vw, 48px);
   box-sizing:border-box;
 }
 
@@ -270,7 +248,7 @@ body::before{
 }
 
 .page{
-  padding:calc(var(--header-height) + 40px) 0 200px;
+  padding: var(--page-top-spacing) 0 200px;
   min-height: calc(100vh - 120px);
   position:relative;
 }
@@ -354,9 +332,9 @@ body::before{
   display:grid;
   grid-template-columns: 280px 1fr;
   gap:32px;
-  width:min(1100px, 100%);
+  width:min(1120px, 100%);
   margin:0 auto 32px;
-  padding:0 32px;
+  padding:0 clamp(16px, 4vw, 48px);
   position:relative;
 }
 
@@ -508,8 +486,17 @@ body::before{
 }
 
 @media (max-width: 640px){
+  :root{
+    --page-top-spacing: clamp(140px, 28vw, 240px);
+  }
   .shell{
     padding:0 20px;
+  }
+  .layout-panels{
+    width:100%;
+    padding:0 20px;
+    margin:0 auto 28px;
+    gap:20px;
   }
   .site-header__inner{
     flex-wrap:wrap;

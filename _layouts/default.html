@@ -54,9 +54,6 @@
       const root = document.documentElement;
       const toggle = document.getElementById('themeToggle');
       const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
-      const header = document.getElementById('siteHeader');
-      let lastScrollY = window.scrollY;
-      let ticking = false;
 
       function getStored(){
         try {
@@ -117,16 +114,15 @@
         if (!getStored()) updateToggle();
       });
 
-      function syncHeaderHeight(){
-        if (!header) return;
-        const height = header.offsetHeight;
-        root.style.setProperty('--header-height', `${Math.round(height)}px`);
-      }
+      const header = document.getElementById('siteHeader');
+      let lastScrollY = window.scrollY;
+      let ticking = false;
+      let headerHeight = header ? header.offsetHeight : 0;
 
       function updateHeaderVisibility(){
         if (!header) return;
         const currentY = window.scrollY;
-        const threshold = header.offsetHeight * 0.6;
+        const threshold = headerHeight * 0.65;
         const scrollingDown = currentY > lastScrollY;
         const scrollingUp = currentY < lastScrollY;
 
@@ -148,14 +144,18 @@
         });
       }
 
-      syncHeaderHeight();
+      function onResize(){
+        if (!header) return;
+        headerHeight = header.offsetHeight;
+        updateHeaderVisibility();
+      }
+
+      headerHeight = header ? header.offsetHeight : 0;
       updateHeaderVisibility();
 
       window.addEventListener('scroll', onScroll, { passive: true });
-      window.addEventListener('resize', () => {
-        syncHeaderHeight();
-        updateHeaderVisibility();
-      });
+      window.addEventListener('resize', onResize, { passive: true });
+
     })();
   </script>
 </body>
