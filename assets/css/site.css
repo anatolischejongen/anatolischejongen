@@ -137,7 +137,7 @@ body{
   .mobile-menu-toggle{
     display:flex;
   }
-  .site-header__actions{
+  .site-header__controls{
     gap:16px;
   }
   .theme-toggle{
@@ -175,7 +175,7 @@ body{
 .site-header__inner{
   display:flex;
   align-items:center;
-  justify-content:space-between;
+  justify-content:flex-start;
   gap: clamp(20px, 3vw, 32px);
   width:100%;
   max-width:min(1120px, 100%);
@@ -193,18 +193,19 @@ body{
   text-shadow: var(--header-shadow);
 }
 
-.site-header__actions{
-  margin-left:auto;
+
+.site-header__controls{
+  margin-left: clamp(16px, 3vw, 40px);
   display:flex;
   align-items:center;
-  justify-content:flex-end;
-  gap:24px;
+  gap:18px;
 }
 
 .main-nav{
   display:flex;
   align-items:center;
-  gap:20px;
+  gap:24px;
+  margin-left:auto;
 }
 
 .main-nav a{
@@ -632,17 +633,27 @@ body.menu-open{
     gap:20px;
   }
   .site-header__inner{
-    flex-wrap:wrap;
-    justify-content:center;
+    flex-wrap:nowrap;
+    justify-content:space-between;
+    align-items:center;
     gap:12px;
     padding:0 20px;
     margin:0;
   }
-  .site-header__actions{
-    width:100%;
-    justify-content:center;
-    gap:14px;
-    padding-right:0;
+  .site-header__controls{
+    margin-left:16px;
+    gap:12px;
+  }
+  .mobile-menu-toggle{
+    width:42px;
+    height:42px;
+  }
+  .theme-toggle{
+    width:42px;
+    height:42px;
+  }
+  .brand{
+    font-size:clamp(1.05rem, 5vw, 1.2rem);
   }
   .main-nav{
     gap:14px;
