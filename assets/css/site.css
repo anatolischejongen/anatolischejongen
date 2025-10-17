@@ -125,6 +125,15 @@ body{
   background-attachment: fixed;
 }
 
+@media (min-width: 769px){
+  .mobile-menu-toggle{
+    display:none;
+  }
+  .main-nav{
+    display:flex;
+  }
+}
+
 @media (max-width: 768px){
   body{
     background-position: center top;
@@ -241,7 +250,7 @@ body{
 }
 
 .mobile-menu-toggle{
-  display:none;
+  display:flex;
   width:44px;
   height:44px;
   border-radius:50%;
