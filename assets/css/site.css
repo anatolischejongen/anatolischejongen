@@ -189,7 +189,7 @@ body{
   width:100%;
   max-width:min(1120px, 100%);
   margin:0 auto;
-  padding: clamp(14px, 2.8vw, 24px) clamp(16px, 4vw, 48px);
+  padding: clamp(16px, 3vw, 26px) clamp(16px, 4vw, 48px);
   box-sizing:border-box;
 }
 
@@ -647,7 +647,7 @@ body.menu-open{
     justify-content:space-between;
     align-items:center;
     gap:12px;
-    padding:0 20px;
+    padding:8px 20px;
     margin:0;
   }
   .site-header__controls{
