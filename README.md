@@ -1,17 +1,35 @@
-## Hoi 👋
-### NL Blog 🇳🇱 
-#### Korte Nederlandstalige stukjes, elke week één 🏗️
-<!--
-**anatolischejongen/anatolischejongen** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+# Hi, I'm Said 👋  
 
-Here are some ideas to get you started:
+Junior data professional, with a background in industrial engineering and 1 year of experience in data science and analytics.  
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+I enjoy turning messy data into useful insights and building practical, end-to-end solutions.
+
+- 🔭 Currently rebuilding my data science skills after a break, focusing on **Python**, **EDA**, and **data cleaning**
+- 🔭 Currently learning about AI,LLM-tools and experimenting and exploring to how to place them in my daily-life 
+- 🌱 Learning **Dutch** and improving my professional English
+- 🎯 Interested in: data-driven decision making, optimization problems, and real-life applications of AI
+- 🌍 Open to opportunities in the Netherlands (junior data / analytics roles)
+
+---
+
+## 🧰 Tech stack & tools
+
+**Languages & Libraries**
+
+- Python (pandas, NumPy, Matplotlib, Seaborn, scikit-learn)
+- SQL (basic querying, joins, aggregations)
+- Jupyter Notebook / JupyterLab
+
+**Data Skills**
+
+- Exploratory Data Analysis (EDA)
+- Data cleaning & preprocessing
+- Working with APIs and CSV/Excel datasets
+- Basic machine learning (classification, regression)
+
+**Other**
+
+- Git & GitHub  
+- Basic Linux / command line
+
+---
