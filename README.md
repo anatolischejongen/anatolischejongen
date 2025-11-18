@@ -4,11 +4,11 @@ Junior data professional, with a background in industrial engineering and 1 year
 
 I enjoy turning messy data into useful insights and building practical, end-to-end solutions.
 
-- 🔭 Currently rebuilding my data science skills after a break, focusing on **Python**, **EDA**, and **data cleaning**
-- 🔭 Currently learning about AI,LLM-tools and experimenting and exploring to how to place them in my daily-life 
-- 🌱 Learning **Dutch** and improving my professional English
-- 🎯 Interested in: data-driven decision making, optimization problems, and real-life applications of AI
-- 🌍 Open to opportunities in the Netherlands (junior data / analytics roles)
+-  Currently rebuilding my data science skills after a break, focusing on **Python**, **EDA**, and **data cleaning**
+-  Currently learning about AI,LLM-tools and experimenting and exploring to how to place them in my daily-life 
+-  Learning **Dutch** and improving my professional English
+-  Interested in: data-driven decision making, optimization problems, and real-life applications of AI
+-  Open to opportunities in the Netherlands (junior data / analytics roles)
 
 ---
 
