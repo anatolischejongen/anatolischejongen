@@ -24,7 +24,9 @@
 <body>
   <header class="site-header" id="siteHeader">
     <div class="site-header__inner">
-      <a class="brand" href="{{ '/' | relative_url }}">{{ site.title }}</a>
+      <a class="brand" href="{{ '/' | relative_url }}" aria-label="{{ site.title }}">
+        <img class="brand-logo" src="{{ '/assets/img/logo-brand.png' | relative_url }}" alt="{{ site.title }}">
+      </a>
       <nav class="main-nav" aria-label="Hoofdmenu">
         <a href="{{ '/' | relative_url }}">Home</a>
         <a href="{{ '/blog/' | relative_url }}">Blog</a>
