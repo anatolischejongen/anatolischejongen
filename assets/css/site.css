@@ -202,9 +202,10 @@ body{
 
 .brand-logo{
   display:block;
-  height:clamp(48px, 6vw, 80px);
-  width:auto;
-  max-width:320px;
+  height:70px;
+  width:320px;
+  object-fit:cover;
+  object-position:center 50%;
   mix-blend-mode:screen;
 }
 
@@ -669,8 +670,8 @@ body.menu-open{
     height:42px;
   }
   .brand-logo{
-    height:52px;
-    max-width:220px;
+    height:50px;
+    width:220px;
   }
   .main-nav{
     gap:14px;
