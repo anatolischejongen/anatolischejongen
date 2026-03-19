@@ -7,10 +7,10 @@
   --text-body: #1f2937;
   --text-muted: #4b5563;
   --accent: #2563eb;
-  --surface: rgba(255,255,255,0.32);
+  --surface: rgba(255,255,255,0.24);
   --surface-border: rgba(15,23,42,0.05);
   --surface-shadow: 0 28px 60px -36px rgba(15,23,42,0.3);
-  --surface-hover: rgba(255,255,255,0.42);
+  --surface-hover: rgba(255,255,255,0.33);
 
   --bg-overlay: rgba(255,255,255,0.0);
   --bg-fallback: #ebf4ff;
@@ -58,8 +58,8 @@
   --text-body: #1f2937;
   --text-muted: #4b5563;
   --accent: #2563eb;
-  --surface: rgba(255,255,255,0.32);
-  --surface-hover: rgba(255,255,255,0.42);
+  --surface: rgba(255,255,255,0.24);
+  --surface-hover: rgba(255,255,255,0.33);
   --surface-border: rgba(15,23,42,0.05);
   --surface-shadow: 0 28px 60px -36px rgba(15,23,42,0.3);
   --bg-overlay: rgba(255,255,255,0.0);
