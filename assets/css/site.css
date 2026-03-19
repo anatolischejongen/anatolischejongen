@@ -7,10 +7,10 @@
   --text-body: #1f2937;
   --text-muted: #4b5563;
   --accent: #2563eb;
-  --surface: rgba(255,255,255,0.6);
+  --surface: rgba(255,255,255,0.50);
   --surface-border: rgba(15,23,42,0.05);
   --surface-shadow: 0 28px 60px -36px rgba(15,23,42,0.3);
-  --surface-hover: rgba(255,255,255,0.8);
+  --surface-hover: rgba(255,255,255,0.7);
 
   --bg-overlay: rgba(255,255,255,0.0);
   --bg-fallback: #ebf4ff;
@@ -32,7 +32,7 @@
 @media (prefers-color-scheme: dark){
   :root:not([data-theme]){
     --text-strong: #e2e8f0;
-    --text-body: #e5e7eb;
+    --text-body: #f1f5f9;
     --text-muted: #94a3b8;
     --accent: #93c5fd;
     --surface: rgba(13,23,45,0.5);
@@ -58,8 +58,8 @@
   --text-body: #1f2937;
   --text-muted: #4b5563;
   --accent: #2563eb;
-  --surface: rgba(255,255,255,0.6);
-  --surface-hover: rgba(255,255,255,0.8);
+  --surface: rgba(255,255,255,0.50);
+  --surface-hover: rgba(255,255,255,0.7);
   --surface-border: rgba(15,23,42,0.05);
   --surface-shadow: 0 28px 60px -36px rgba(15,23,42,0.3);
   --bg-overlay: rgba(255,255,255,0.0);
