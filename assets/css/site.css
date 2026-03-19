@@ -196,17 +196,14 @@ body{
 .brand{
   text-decoration:none;
   display:flex;
-  align-items:flex-start;
+  align-items:center;
   flex-shrink:0;
-  overflow:hidden;
-  height:52px;
 }
 
 .brand-logo{
   display:block;
-  height:170px;
+  height:36px;
   width:auto;
-  margin-top:-45px;
   mix-blend-mode:screen;
 }
 
@@ -670,13 +667,8 @@ body.menu-open{
     width:42px;
     height:42px;
   }
-  .brand{
-    height:48px;
-  }
   .brand-logo{
-    height:155px;
-    width:auto;
-    margin-top:-42px;
+    height:30px;
   }
   .main-nav{
     gap:14px;
