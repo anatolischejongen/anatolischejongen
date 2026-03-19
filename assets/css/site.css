@@ -7,10 +7,10 @@
   --text-body: #1f2937;
   --text-muted: #4b5563;
   --accent: #2563eb;
-  --surface: rgba(255,255,255,0.50);
+  --surface: rgba(255,255,255,0.40);
   --surface-border: rgba(15,23,42,0.05);
   --surface-shadow: 0 28px 60px -36px rgba(15,23,42,0.3);
-  --surface-hover: rgba(255,255,255,0.7);
+  --surface-hover: rgba(255,255,255,0.52);
 
   --bg-overlay: rgba(255,255,255,0.0);
   --bg-fallback: #ebf4ff;
@@ -36,7 +36,7 @@
     --text-muted: #94a3b8;
     --accent: #93c5fd;
     --surface: rgba(13,23,45,0.5);
-    --surface-hover: rgba(18,30,54,0.68);
+    --surface-hover: rgba(18,30,54,0.60);
     --surface-border: rgba(148,163,184,0.12);
     --surface-shadow: 0 28px 60px -32px rgba(0,0,0,0.55);
     --bg-overlay: rgba(8,15,35,0.08);
@@ -58,8 +58,8 @@
   --text-body: #1f2937;
   --text-muted: #4b5563;
   --accent: #2563eb;
-  --surface: rgba(255,255,255,0.50);
-  --surface-hover: rgba(255,255,255,0.7);
+  --surface: rgba(255,255,255,0.40);
+  --surface-hover: rgba(255,255,255,0.52);
   --surface-border: rgba(15,23,42,0.05);
   --surface-shadow: 0 28px 60px -36px rgba(15,23,42,0.3);
   --bg-overlay: rgba(255,255,255,0.0);
